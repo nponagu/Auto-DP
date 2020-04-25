@@ -5,3 +5,7 @@ env/
 *.db
 *enter_to_git.txt
 *.xlsx
+*.sav
+*.csv
+*.ipynb
+*labour.py
