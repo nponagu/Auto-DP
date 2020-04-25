@@ -12,7 +12,7 @@ def check_category_var(df, valid_values):
     3) :df.isin(): - check valid values
     
     Output:
-    1) :df: - pd.DataFrame with 
+    1) :df: - pd.DataFrame with error variables
     """
     
     #create error variables
