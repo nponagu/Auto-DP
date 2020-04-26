@@ -45,7 +45,7 @@ def check_interval_var(df, min_val=None, max_val=None):
     3) :df.isin(range(min_val,max_val+1)): - check a range of values
     
     Output:
-    1) :df: - pd.DataFrame with 
+    1) :df: - pd.DataFrame with error variables
     """
     
     #create error variables
