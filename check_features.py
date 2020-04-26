@@ -1,3 +1,5 @@
+import pandas as pd
+
 def check_category_var(df, valid_values):
     """
     Check conditions for a category feature.
@@ -27,3 +29,11 @@ def check_category_var(df, valid_values):
     df[var_name_values] = df[var_name].isin(valid_values)
     
     return df
+
+
+
+if __name__ == "__main__":
+    
+    df = pd.read_excel("Межнац финал.xlsx", usecols=["NUMBER", "GORSELO"], index_col="NUMBER")
+    checked_df = check_category_var(df, [1,2])
+    print(checked_df.columns)
