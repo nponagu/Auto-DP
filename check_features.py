@@ -53,8 +53,10 @@ def check_interval_var(df, min_val=None, max_val=None):
     var_name_missing = f"err_{var_name}_missing"
     var_name_values = f"err_{var_name}_values"
     
+    #missing value
     df[var_name_missing] = df.isna()
     
+    #wrong values, not expected
     if min_val and max_val:
         df[var_name_values] = ~df[var_name].isin(range(min_val,max_val+1))
     elif min_val:
