@@ -4,6 +4,7 @@ __pycache__/
 env/
 *.db
 *enter_to_git.txt
+*TODO.txt
 *.xlsx
 *.sav
 *.csv
