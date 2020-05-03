@@ -78,7 +78,7 @@ def check_spread_var(
 ):
     
     """
-    Check conditions for an interval feature.
+    Check conditions for a spread feature.
     
     Input:
     1) :df: - pd.DataFrame with a spread feature. Can be numeric or string. Should be with set index
