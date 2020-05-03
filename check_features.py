@@ -118,8 +118,8 @@ def check_spread_var(
 
     
     #NA with another answer
-    battle_val_list = [val for val in valid_values if val not in na_list]
     if na_list:
+        battle_val_list = [val for val in valid_values if val not in na_list]
         df[var_name_na] = (
             df.loc[:, var_list].isin(na_list).any(axis='columns') & 
             df.loc[:, var_list].isin(battle_val_list).any(axis='columns')
