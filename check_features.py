@@ -8,6 +8,7 @@ def check_category_var(df, valid_values, filter_var=None):
     Input:
     1) :df: - pd.DataFrame with a category feature. Can be numeric or string. Should be with set index
     2) :valid_values: - expected values for a feature
+    3) :filter_var: - bool series for selecting a sample which should to answer
     
     Used functions:
     1) :df.columns[0]: - get a name of feature
@@ -21,13 +22,12 @@ def check_category_var(df, valid_values, filter_var=None):
 
     #create var_name
     if filter_var:
-        target_var = df.columns.drop(filter_var)[0]
+        var_name = df.columns.drop(filter_var)[0]
     else:
-        target_var = df.columns[0]
+        var_name = df.columns[0]
 
 
     #create error variables
-    var_name = df.columns[0]
     var_name_missing = f"err_{var_name}_missing"
     var_name_answered = f"err_{var_name}_answered"
     var_name_values = f"err_{var_name}_values"
@@ -35,8 +35,8 @@ def check_category_var(df, valid_values, filter_var=None):
     
     #missing value & fake answers
     if filter_var:
-        df[var_name_missing] = (df[filter_var] == True & df[target_var].isna())        
-        df[var_name_answered] = (df[filter_var] == False & ~df[target_var].isna())
+        df[var_name_missing] = (df[filter_var] == True & df[var_name].isna())        
+        df[var_name_answered] = (df[filter_var] == False & ~df[var_name].isna())
     else:
         df[var_name_missing] = df.isna()
     
