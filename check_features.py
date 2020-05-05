@@ -1,6 +1,6 @@
 import pandas as pd
 
-def check_category_var(df, valid_values):
+def check_category_var(df, valid_values, filter_var=None):
 
     """
     Check conditions for a category feature.
@@ -18,17 +18,33 @@ def check_category_var(df, valid_values):
     1) :df: - pd.DataFrame with error variables
     """
     
+
+    #create var_name
+    if filter_var:
+        target_var = df.columns.drop(filter_var)[0]
+    else:
+        target_var = df.columns[0]
+
+
     #create error variables
     var_name = df.columns[0]
     var_name_missing = f"err_{var_name}_missing"
+    var_name_answered = f"err_{var_name}_answered"
     var_name_values = f"err_{var_name}_values"
+
     
-    #missing value
-    df[var_name_missing] = df.isna()
+    #missing value & fake answers
+    if filter_var:
+        df[var_name_missing] = (df[filter_var] == True & df[target_var].isna())        
+        df[var_name_answered] = (df[filter_var] == False & ~df[target_var].isna())
+    else:
+        df[var_name_missing] = df.isna()
     
+
     #wrong values, not expected
     df[var_name_values] = df[var_name].isin(valid_values)
     
+
     return df
 
 
@@ -147,18 +163,26 @@ if __name__ == "__main__":
     # df = pd.read_excel("Межнац финал.xlsx", usecols=["NUMBER", "GORSELO"], index_col="NUMBER")
     # checked_df = check_category_var(df, [1,2])
 
-    df = pd.read_excel("Межнац финал.xlsx", usecols=[
-        "NUMBER", "V24", "V25.1", "V25.2", "V25.3", "V25.4", "V25.5", "V25.6", "V25.7", "V25.8"
-        ], index_col="NUMBER")
-    df["filt_V25"] = (df.loc[:, "V24"] == 1)
-    df.drop(columns=["V24"], inplace=True)
+    # df = pd.read_excel("Межнац финал.xlsx", usecols=[
+    #     "NUMBER", "V24", "V25.1", "V25.2", "V25.3", "V25.4", "V25.5", "V25.6", "V25.7", "V25.8"
+    #     ], index_col="NUMBER")
+    # df["filt_V25"] = (df.loc[:, "V24"] == 1)
+    # df.drop(columns=["V24"], inplace=True)
 
 
-    checked_df = check_spread_var(
-        df,
-        filter_var="filt_V25",
-        var_name="V25",
-        na_list=[99], 
-        valid_values=[1,2,3,4,5,6,7,8,9,99]
-        )
-    print(checked_df.shape)
+    # checked_df = check_spread_var(
+    #     df,
+    #     filter_var="filt_V25",
+    #     var_name="V25",
+    #     na_list=[99], 
+    #     valid_values=[1,2,3,4,5,6,7,8,9,99]
+    #     )
+
+
+    df = pd.read_excel("Межнац финал.xlsx", usecols=["NUMBER", "V27", "V28"], index_col="NUMBER")
+    df["filt_V28"] = (df.loc[:, "V27"] == 1)
+    df.drop(columns=["V27"], inplace=True)
+    checked_df = check_category_var(df, [1,2,3,4,5,6,7,8,9], filter_var="filt_V28")
+
+
+    print(checked_df.head())
